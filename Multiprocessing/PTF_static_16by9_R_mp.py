@@ -3,17 +3,16 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import LinearSegmentedColormap
 import multiprocessing as mp
 
-# multiprocessing할 cpu 수 
-num_processes = mp.cpu_count() - 1
-# overflow warning 무시하기
-np.seterr(over='ignore')
+num_processes = mp.cpu_count() - 1  # multiprocessing에 사용할 cpu 수 
+np.seterr(over='ignore')  # overflow warning 무시하기
+max_task = 1000 # 한번에 시킬 task 수 n번 이후 cpu재시작
 
 #parameters - plot영역설정관련
 x0 = 0
 y0 = 0 #(x0,y0) : plot영역 중심좌표
 eps = 5e0 #x0 좌우로 eps만큼 plot함
 eps_y = eps * (16/9)  # 16:9 비율에 맞추기 위해 y축 eps 계산
-n = 500 #화소수조절을 위한 parameter (3840:4K, 1920:Full HD)
+n = 3840 #화소수조절을 위한 parameter (3840:4K, 1920:Full HD)
 nx, ny = n, int(n*(16/9)) #nx, ny : x,y축 화소수
 
 #parameters - tetration계산 관련
@@ -23,8 +22,6 @@ escape_radius = 1e+10 #복소수크기가 escape_radius를 벗어나면 발산�
 x = np.linspace(x0 - eps, x0 + eps, nx)
 y = np.linspace(y0 - eps_y, y0 + eps_y, ny)
 c = x[:, np.newaxis] + 1j * y[np.newaxis, :] # complex coordinates 
-# divergence_map = np.zeros_like(c, dtype=bool)
-divergence_map = mp.RawArray('d', c.shape[0] * c.shape[1])
 
 # 좌표들 
 ijs = []
@@ -50,7 +47,7 @@ def tetration(ij):
 
 if __name__ == '__main__':
     #divergence 계산
-    pool = mp.Pool(num_processes)
+    pool = mp.Pool(num_processes, maxtasksperchild=max_task)
     result = pool.map(tetration, ijs)
     pool.close()
     pool.join()
