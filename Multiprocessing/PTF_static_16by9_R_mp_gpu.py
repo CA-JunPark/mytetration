@@ -4,7 +4,7 @@ from matplotlib.colors import LinearSegmentedColormap
 import multiprocessing as mp
 from numba import jit, cuda
 
-num_processes = mp.cpu_count() - 8 # multiprocessing에 사용할 cpu 수 
+num_processes = mp.cpu_count()//2 # multiprocessing에 사용할 cpu 수 
 np.seterr(over='ignore')  # overflow warning 무시하기
 max_task = 1000 # 한번에 시킬 task 수 n번 이후 cpu재시작
 
