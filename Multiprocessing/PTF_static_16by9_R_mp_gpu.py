@@ -2,17 +2,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import LinearSegmentedColormap
 import multiprocessing as mp
+from numba import jit, cuda
 
-num_processes = mp.cpu_count() - 8  # multiprocessing에 사용할 cpu 수 
-# 코어 수 이하 값 넣는 걸 추천
+num_processes = mp.cpu_count() - 8 # multiprocessing에 사용할 cpu 수 
 np.seterr(over='ignore')  # overflow warning 무시하기
 max_task = 1000 # 한번에 시킬 task 수 n번 이후 cpu재시작
 
 #parameters - plot영역설정관련
 # (x0,y0) : plot영역 중심좌표
-x0 = 0.0061
-y0 = 3.2219
-eps = 5e0 #x0 좌우로 eps만큼 plot함
+x0 = -0.188427
+y0 = 0.2334446
+eps = 5e-3 #x0 좌우로 eps만큼 plot함
 eps_y = eps * (16/9)  # 16:9 비율에 맞추기 위해 y축 eps 계산
 #화소수조절을 위한 parameter (3840:4K, 1920:Full HD) 
 n = 3840 
@@ -32,6 +32,7 @@ for i in range(nx):
     for j in range(ny):
         ijs.append((i,j))
 
+@jit(target_backend='cuda')
 def tetration(ij):
     global c, max_iter, escape_radius
     i , j = ij

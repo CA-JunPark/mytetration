@@ -1,6 +1,6 @@
 # 목차
-- [**프로그램 설치**](#프로그램-설치) : [Visual Studio Code](#Visual-Studio-Code) / [Python](#Python) / [NumPy와 Matplotlib](#NumPy와-Matplotlib)
-- [**나만의 Power Tower Fractal을 만들어보자**](#나만의-power-tower-fractal을-만들어보자)
+- [**프로그램 설치**](#프로그램-설치) : [Visual Studio Code](#Visual-Studio-Code) / [Python](#Python) / [NumPy와 Matplotlib](#NumPy와-Matplotlib) / [Numba](#Numba)
+- [**나만의 Power Tower Fractal을 만들어보자**](#나만의-power-tower-fractal을-만들어보자) (GPU 사용 추가)
 - [**SNS 업로드 규칙**](#SNS-업로드-규칙)
 - [**PTF코드에 대한 코멘트**](#PTF코드에-대한-코멘트)
 - [**또 다른 미지의 세계를 항해..**](#또-다른-미지의-세계를-향해)
@@ -46,6 +46,20 @@
 - 설치가 완료되면 터미널에 다음 명령어를 입력하여 각각의 버젼을 확인하여 설치완료여부를 확인 할 수 있습니다 :
   - `python3 -c "import numpy; print(numpy.__version__)"`
   - `python3 -c "import matplotlib; print(matplotlib.__version__)"`
+---
+## Numba
+**Numba 설치**
+GPU를 사용해서 더 빠르게 계산할 수 있습니다.
+
+##### 주의: NVIDIA GPU만 가능 사용 가능합니다.
+사용할 수 있는 GPU는 [이곳](https://developer.nvidia.com/cuda-gpus)에서 확인할 수 있습니다.
+명시된 GPU를 사용 중이라면 
+
+- [NVIDIA 공식 사이트](https://developer.nvidia.com/cuda-downloads)에서 CUDA Toolkit (Linux 또는 Windows) 을 다운 받고 설치합니다.
+
+- 다음 명령어를 터미널에 입력하여 Numba를 설치합니다 : `pip3 install numba`
+
+AMD Ryzen 7 7840HS CPU와 NVIDIA GeForce RTX 4060 Laptop GPU, 16GB RAM으로 Multiprocessing 폴더 안에 있는 PTF_static_16by9_R_mp_gpu.py를 num_processes=8,max_task=1000, n=3840으로 설정 시, 이미지가 약 5분 만에 출력됩니다. (원본 코드는 약 30분~35분 정도 걸렸습니다)
 
 ## 나만의 Power Tower Fractal을 만들어보자
 ### 샘플이미지 출력
