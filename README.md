@@ -59,7 +59,9 @@ GPU를 사용해서 더 빠르게 계산할 수 있습니다.
 
 - 다음 명령어를 터미널에 입력하여 Numba를 설치합니다 : `pip3 install numba`
 
-AMD Ryzen 7 7840HS CPU와 NVIDIA GeForce RTX 4060 Laptop GPU, 16GB RAM으로 Multiprocessing 폴더 안에 있는 PTF_static_16by9_R_mp_gpu.py를 num_processes=8,max_task=1000, n=3840으로 설정 시, 이미지가 약 5분 만에 출력됩니다. (원본 코드는 약 30분~35분 정도 걸렸습니다)
+AMD Ryzen 7 7840HS CPU와 NVIDIA GeForce RTX 4060 Laptop GPU, 16GB RAM으로 Multiprocessing 폴더 안에 있는 PTF_static_mp_gpu.py를 num_processes=8, max_task=1000, n=3840으로 설정 시, 이미지가 약 5분 만에 출력됩니다. (원본 코드는 약 30분~35분 정도 걸렸습니다)
+ 
+명시된 GPU를 사용 중이 아니면 `tetration()`함수 바로 위에 적힌 `@jit(target_backend='cuda')`를 지우시면 GPU를 사용하지 않습니다. (그래도 multiprocessing으로 작업하니 CPU에 따라 기존 코드보단 빨라지긴 합니다.)
 
 ## 나만의 Power Tower Fractal을 만들어보자
 ### 샘플이미지 출력
@@ -69,6 +71,7 @@ AMD Ryzen 7 7840HS CPU와 NVIDIA GeForce RTX 4060 Laptop GPU, 16GB RAM으로 Mul
 - 이 text 파일을 바탕화면에 `PTF_static_1by1_H.py`라는 이름으로 지정하세요.
 - 터미널에 다음과 같은 명령어를 입력하면 코드가 실행됩니다 : `python3 PTF_static_1by1_H.py`
 - 실행이 완료되면 결과 이미지가 'Figure 1'이라는 이름의 창으로 뜨고, 바탕화면에는 `mytetration_x_0_y_0_eps_5.png`라는 이름의 이미지 파일이 생성됩니다 :![Sample Result](Power%20Tower%20Fractal%20(static)/sample/mytetration_x_0_y_0_eps_5.png)
+### GPU와 Multiprocessing
 ---
 ### PTF세계로의 여행
 - 원하는 이미지를 출력하기 위한 주요변수들을 살펴보겠습니다.

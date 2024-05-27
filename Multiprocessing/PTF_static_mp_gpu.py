@@ -1,30 +1,37 @@
+"""
+Author: CA-JunPark
+email: cskoko5786@gmail.com
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import LinearSegmentedColormap
 import multiprocessing as mp
 from numba import jit, cuda
 
-num_processes = mp.cpu_count()//2 # multiprocessing에 사용할 cpu 수 
-np.seterr(over='ignore')  # overflow warning 무시하기
-max_task = 1000 # 한번에 시킬 task 수 n번 이후 cpu재시작
+# 추가된 parameters
+num_processes = mp.cpu_count()//2   # multiprocessing에 사용할 cpu 수 
+np.seterr(over='ignore')            # overflow warning 무시하기
+max_task = 1000                     # 한번에 시킬 task 수 n번 이후 cpu재시작
+ratio = 4/5                         # 비율 ex) 1, 4/5 (instagram), 9/16, 16/9(Youtube or PPT)
+rotate = True                       # 이미지 데이터 회전 True = 회전o False = 회전x
 
 #parameters - plot영역설정관련
 # (x0,y0) : plot영역 중심좌표
-x0 = -0.188427
-y0 = 0.2334446
-eps = 5e-3 #x0 좌우로 eps만큼 plot함
-eps_y = eps * (16/9)  # 16:9 비율에 맞추기 위해 y축 eps 계산
-#화소수조절을 위한 parameter (3840:4K, 1920:Full HD) 
-n = 3840 
-nx, ny = n, int(n*(16/9)) #nx, ny : x,y축 화소수
+x0 = -0.712
+y0 = 0
+eps = 0.25               #x0 좌우로 eps만큼 plot함
+eps_y = eps * ratio      # 비율에 맞추기 위해 y축 eps 계산
+n = 3840                 # 화소수조절을 위한 parameter (3840:4K, 1920:Full HD)
+nx, ny = n, int(n*ratio) #nx, ny : x,y축 화소수
 
 #parameters - tetration계산 관련
 max_iter = 500 #최대 몇층까지 계산할 것인지를 정함. max_iter층 만큼 계산했는데 복소수 크기가 escape_radius를 벗어나지 않으면 수렴한것으로 처리.
 escape_radius = 1e+10 #복소수크기가 escape_radius를 벗어나면 발산한 것으로 처리함.
 
-x = np.linspace(x0 - eps, x0 + eps, nx)
-y = np.linspace(y0 - eps_y, y0 + eps_y, ny)
-c = x[:, np.newaxis] + 1j * y[np.newaxis, :] # complex coordinates 
+x = np.linspace(x0 - eps, x0 + eps, nx)      # x 좌표
+y = np.linspace(y0 - eps_y, y0 + eps_y, ny)  # y 좌표
+c = x[:, np.newaxis] + 1j * y[np.newaxis, :] # 복소 좌표
 
 # 좌표들 
 ijs = []
@@ -55,7 +62,8 @@ if __name__ == '__main__':
     divergence_map = np.array(result).reshape(c.shape)
     
     # 이미지 데이터 회전
-    rotated_map = np.rot90(divergence_map, k=-1)
+    if rotate:
+        rotated_map = np.rot90(divergence_map, k=-1)
     # plot
     cmap = LinearSegmentedColormap.from_list("custom_cmap", ["black", "white"]) # 커스텀 컬러맵 생성: 발산은 흰색, 수렴은 검은색
     plt.imshow(rotated_map.T, extent=[y0 - eps_y, y0 + eps_y, x0 - eps, x0 + eps], origin='lower', cmap=cmap)
