@@ -25,9 +25,9 @@ np.seterr(over='ignore')            # overflow warning 무시하기
 # (x0,y0) : plot영역 중심좌표
 x0 = -0.712
 y0 = 0
-eps = 0.25               #x0 좌우로 eps만큼 plot함
+eps = 0.25         #x0 좌우로 eps만큼 plot함
 eps_y = eps * ratio      # 비율에 맞추기 위해 y축 eps 계산
-n = 3840                 # 화소수조절을 위한 parameter (3840:4K, 1920:Full HD)
+n = 6000                 # 화소수조절을 위한 parameter (3840:4K, 1920:Full HD)
 nx, ny = n, int(n*ratio) #nx, ny : x,y축 화소수
 
 #parameters - tetration계산 관련
@@ -69,10 +69,14 @@ if __name__ == '__main__':
     # 이미지 데이터 회전
     if rotate:
         rotated_map = np.rot90(divergence_map, k=-1)
+        rotated = "_rotated"
+    else: 
+        rotated_map = divergence_map
+        rotated = ""
     # plot
     cmap = LinearSegmentedColormap.from_list("custom_cmap", ["black", "white"]) # 커스텀 컬러맵 생성: 발산은 흰색, 수렴은 검은색
     plt.imshow(rotated_map.T, extent=[y0 - eps_y, y0 + eps_y, x0 - eps, x0 + eps], origin='lower', cmap=cmap)
     plt.axis('off')  # 축 라벨과 타이틀 제거
-    filename = f"mytetration_x_{x0}_y_{y0}_eps_{eps}_rotated.png"
+    filename = f"mytetration_x_{x0}_y_{y0}_eps_{eps}{rotated}.png"
     plt.savefig(filename, dpi=600, bbox_inches='tight', pad_inches=0)
     plt.show()
