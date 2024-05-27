@@ -18,7 +18,7 @@ num_processes = mp.cpu_count()//2   # multiprocessing에 사용할 cpu 수, 높�
 max_task = 1000                     # 한번에 시킬 task 수 n번 이후 사용된 cpu재시작
                                     # 너무 높은 수를 적으면 CPU와 RAM이 감당하지 못해 프로그램이 꺼질 수 있음
 ratio = 4/5                         # 비율 ex) 1, 4/5 (instagram), 9/16, 16/9(Youtube or PPT)
-rotate = True                       # 이미지 데이터 회전 True = 회전o False = 회전x
+rotate = True                       # 이미지 데이터 회전 True = R(회전o)  False = H(회전x)
 np.seterr(over='ignore')            # overflow warning 무시하기
 
 #parameters - plot영역설정관련
