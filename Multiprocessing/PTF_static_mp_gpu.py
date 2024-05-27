@@ -1,6 +1,9 @@
 """
 Author: CA-JunPark
 email: cskoko5786@gmail.com
+GitHub: https://github.com/CA-JunPark/mytetration 
+
+Numba 설치 설명 은 깃허브 페이지(README.md)에 추가 되어있습니다. 
 """
 
 import numpy as np
@@ -10,11 +13,13 @@ import multiprocessing as mp
 from numba import jit, cuda
 
 # 추가된 parameters
-num_processes = mp.cpu_count()//2   # multiprocessing에 사용할 cpu 수 
-np.seterr(over='ignore')            # overflow warning 무시하기
-max_task = 1000                     # 한번에 시킬 task 수 n번 이후 cpu재시작
+num_processes = mp.cpu_count()//2   # multiprocessing에 사용할 cpu 수, 높을수록 빨라지나
+                                    # 너무 높은 수를 적으면 CPU와 RAM이 감당하지 못해 프로그램이 꺼질 수 있음
+max_task = 1000                     # 한번에 시킬 task 수 n번 이후 사용된 cpu재시작
+                                    # 너무 높은 수를 적으면 CPU와 RAM이 감당하지 못해 프로그램이 꺼질 수 있음
 ratio = 4/5                         # 비율 ex) 1, 4/5 (instagram), 9/16, 16/9(Youtube or PPT)
 rotate = True                       # 이미지 데이터 회전 True = 회전o False = 회전x
+np.seterr(over='ignore')            # overflow warning 무시하기
 
 #parameters - plot영역설정관련
 # (x0,y0) : plot영역 중심좌표
