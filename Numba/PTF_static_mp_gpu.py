@@ -3,7 +3,7 @@ Author: CA-JunPark
 email: cskoko5786@gmail.com
 GitHub: https://github.com/CA-JunPark/mytetration 
 
-Numba 설치 설명 은 깃허브 페이지(README.md)에 추가 되어있습니다. 
+Numba 설치 설명은 Numba/README.md 참고 
 """
 
 import numpy as np
@@ -11,23 +11,28 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import LinearSegmentedColormap
 import multiprocessing as mp
 from numba import jit, cuda
+from timeit import default_timer as timer
+
+# 계산 시간 측정
+start = timer()
 
 # 추가된 parameters
 num_processes = mp.cpu_count()//2   # multiprocessing에 사용할 cpu 수, 높을수록 빨라지나
-                                    # 너무 높은 수를 적으면 CPU와 RAM이 감당하지 못해 프로그램이 꺼질 수 있음
+                                    # 너무 높으면 CPU와 RAM이 감당하지 못해 프로그램이 꺼질 수 있음
 max_task = 1000                     # 한번에 시킬 task 수 n번 이후 사용된 cpu재시작
-                                    # 너무 높은 수를 적으면 CPU와 RAM이 감당하지 못해 프로그램이 꺼질 수 있음
+                                    # 너무 높으면 CPU와 RAM이 감당하지 못해 프로그램이 꺼질 수 있음
 ratio = 4/5                         # 비율 ex) 1, 4/5 (instagram), 9/16, 16/9(Youtube or PPT)
 rotate = True                       # 이미지 데이터 회전 True = R(회전o)  False = H(회전x)
+
 np.seterr(over='ignore')            # overflow warning 무시하기
 
 #parameters - plot영역설정관련
 # (x0,y0) : plot영역 중심좌표
-x0 = -0.712
+x0 = -1.012
 y0 = 0
-eps = 0.25         #x0 좌우로 eps만큼 plot함
+eps = 0.03125         #x0 좌우로 eps만큼 plot함
 eps_y = eps * ratio      # 비율에 맞추기 위해 y축 eps 계산
-n = 6000                 # 화소수조절을 위한 parameter (3840:4K, 1920:Full HD)
+n = 4000                 # 화소수조절을 위한 parameter (3840:4K, 1920:Full HD)
 nx, ny = n, int(n*ratio) #nx, ny : x,y축 화소수
 
 #parameters - tetration계산 관련
@@ -73,10 +78,12 @@ if __name__ == '__main__':
     else: 
         rotated_map = divergence_map
         rotated = ""
+        
+    print("소요 시간:", timer()-start, "초")
     # plot
     cmap = LinearSegmentedColormap.from_list("custom_cmap", ["black", "white"]) # 커스텀 컬러맵 생성: 발산은 흰색, 수렴은 검은색
     plt.imshow(rotated_map.T, extent=[y0 - eps_y, y0 + eps_y, x0 - eps, x0 + eps], origin='lower', cmap=cmap)
     plt.axis('off')  # 축 라벨과 타이틀 제거
-    filename = f"mytetration_x_{x0}_y_{y0}_eps_{eps}{rotated}.png"
+    filename = f"mytetration_x_{x0}_y_{y0}_eps_{eps}{rotated}_{n}.png"
     plt.savefig(filename, dpi=600, bbox_inches='tight', pad_inches=0)
     plt.show()

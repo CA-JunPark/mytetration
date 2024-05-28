@@ -1,6 +1,6 @@
 # 목차
-- [**프로그램 설치**](#프로그램-설치) : [Visual Studio Code](#Visual-Studio-Code) / [Python](#Python) / [NumPy와 Matplotlib](#NumPy와-Matplotlib) / [Numba](#Numba)
-- [**나만의 Power Tower Fractal을 만들어보자**](#나만의-power-tower-fractal을-만들어보자) (GPU 사용 추가)
+- [**프로그램 설치**](#프로그램-설치) : [Visual Studio Code](#Visual-Studio-Code) / [Python](#Python) / [NumPy와 Matplotlib](#NumPy와-Matplotlib)
+- [**나만의 Power Tower Fractal을 만들어보자**](#나만의-power-tower-fractal을-만들어보자)
 - [**SNS 업로드 규칙**](#SNS-업로드-규칙)
 - [**PTF코드에 대한 코멘트**](#PTF코드에-대한-코멘트)
 - [**또 다른 미지의 세계를 항해..**](#또-다른-미지의-세계를-향해)
@@ -46,30 +46,6 @@
 - 설치가 완료되면 터미널에 다음 명령어를 입력하여 각각의 버젼을 확인하여 설치완료여부를 확인 할 수 있습니다 :
   - `python3 -c "import numpy; print(numpy.__version__)"`
   - `python3 -c "import matplotlib; print(matplotlib.__version__)"`
----
-## Numba
-**Numba 설치**
-
-GPU를 사용해서 더 빠르게 계산할 수 있습니다.
-
-##### 주의: NVIDIA GPU만 가능 사용 가능합니다.
-사용할 수 있는 GPU는 [이곳](https://developer.nvidia.com/cuda-gpus)에서 확인할 수 있습니다.
-명시된 GPU를 사용 중이라면 
-
-- [NVIDIA 공식 사이트](https://developer.nvidia.com/cuda-downloads)에서 CUDA Toolkit (Linux 또는 Windows) 을 다운 받고 설치합니다.
-
-- 다음 명령어를 터미널에 입력하여 Numba를 설치합니다 : `pip3 install numba`
-
-## PTF_static_mp_gpu.py
-AMD Ryzen 7 7840HS CPU와 NVIDIA GeForce RTX 4060 Laptop GPU, 16GB RAM으로 Multiprocessing 폴더 안에 있는 PTF_static_mp_gpu.py를 num_processes=8, max_task=1000, n=3840으로 설정 시, 이미지가 약 5분 만에 출력되었습니다. 
-(원본 코드는 약 30분~35분 정도 걸렸습니다)
- 
-명시된 GPU를 사용 중이 아니면 `tetration()`함수 바로 위에 적힌 `@jit(target_backend='cuda')`를 지우시면 GPU를 사용하지 않습니다. 
-(그래도 multiprocessing으로 작업하니 CPU에 따라 기존 코드보단 약간 빨라지긴 합니다)
-
-추가된 파라미터들 
-`num_processes, max_task, ratio, rotate`의 설명은 코드 내의 주석 참고
-
 
 ## 나만의 Power Tower Fractal을 만들어보자
 ### 샘플이미지 출력
@@ -92,7 +68,7 @@ AMD Ryzen 7 7840HS CPU와 NVIDIA GeForce RTX 4060 Laptop GPU, 16GB RAM으로 Mul
 - 이제 PTF세계를 탐험 할 수 있는 기본을 다 갖추었습니다. 마음껏 탐험하시고, 마음껏 공유해주세요!
 
 ## SNS 업로드 규칙
-- tetration관련 컨텐츠를 인스타그램/유튜브/페이스북/블로그 등 모든 플랫폼에 해쉬태그 `#mytetraion`과 함께 업로드 해주세요. 그것이 해쉬태그를 통한 분류기능을 공식지원 하지 않는 플랫폼이더라도, `#mytetration`은 tetration컨텐츠들을 이어주는 강력한 거미줄 역할을 해 줄 것입니다.
+- tetration관련 컨텐츠를 인스타그램/유튜브/페이스북/블로그 등 모든 플랫폼에 해쉬태그 `#mytetration`과 함께 업로드 해주세요. 그것이 해쉬태그를 통한 분류기능을 공식지원 하지 않는 플랫폼이더라도, `#mytetration`은 tetration컨텐츠들을 이어주는 강력한 거미줄 역할을 해 줄 것입니다.
 - Power Tower Fractal 이미지의 경우, plot범위를 알 수 있는 `x0`, `y0`, `eps`값을 반드시 기재해주세요. PTF의 패턴은 무한히 다양해서, 그런 정보가 없으면 해당이미지의 plot범위를 알기가 매우 어렵습니다.
 - [아래에 상세히 설명드리겠지만](#또-다른-미지의-세계를-향해), tetration은 PTF 말고도 수없이 다양한 패턴을 만들어 냅니다. 또, 수학적기준을 통해 색깔을 입히면 기존 이미지를 재창조 할 수도 있습니다. 자신만의 방법으로 찾은 새로운 tetration 이미지/수학적사실/코딩개선 등이 있다면, 이 또한 `#mytetration`으로 공유해 주세요. 당신의 그런 홛동은 인류 수학지식에 큰 기여일 수 있습니다.
 
